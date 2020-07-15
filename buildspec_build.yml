@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - git clone https://github.com/beyondsoft-na/convergdb.git
+      - mv convergdb/convergdb.jar .
+      - ls
+#   pre_build:
+#     commands:
+#       - gem install thor --version 0.20
+#       - bundle install
+#   build:
+#     commands:
+#       - bundle exec gem build convergdb.gemspec
+#       - warble
+# artifacts:
+#   files:
+#     - buildspec_integration.yml
+#     - buildspec_tagging.yml
+#     - convergdb-*-java.gem
+#     - src.jar
+#     - bin/*
+#     - test/fixtures/bin/*
+#     - test/fixtures/integration_test_*/**/*
+
