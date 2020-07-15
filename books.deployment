@@ -1,0 +1,22 @@
+s3_source "prod" {
+  relations {
+    relation {
+      dsd = "ecommerce.inventory.books_source"
+      storage_format = "json"
+      storage_bucket = "demo-source-us-west-2.beyondsoft.us"
+    }
+  }
+}
+
+athena "prod" {
+  etl_job_name = "demo2"
+  etl_job_schedule = "cron(0 7 * * ? *)"
+  relations {
+    relation {
+      storage_format = "parquet"
+      dsd = "ecommerce.inventory.books"
+      inventory_source = "default"
+      spark_partition_count = 2
+    }
+  }
+}

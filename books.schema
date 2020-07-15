@@ -1,0 +1,38 @@
+domain "ecommerce" {
+  schema "inventory" {
+    relation "books_source" {
+      relation_type = base
+      attributes {
+        attribute "item_number" { data_type = integer }
+        attribute "title"       { data_type = varchar(100) }
+        attribute "author"      { data_type = varchar(100) }
+        attribute "price"       { data_type = numeric(10,2) }
+        attribute "stock"       { data_type = integer }
+      }
+    }
+
+    relation "books" {
+      relation_type = derived { source = "books_source" }
+      partitions = ["part_id"]
+      attributes {
+        attribute "item_number" { data_type = integer }
+        attribute "title"       { data_type = varchar(100) }
+        attribute "author"      { data_type = varchar(100) }
+        attribute "price"       { data_type = numeric(10,2) }
+        
+        attribute "part_id" {
+          data_type = varchar(100)
+          expression = "substring(md5(title),1,1)"
+        }
+        attribute "retail_markup" {
+          data_type = numeric(10,2)
+          expression = "price * 0.26"
+        }
+        attribute "source_file" { 
+          data_type = varchar(100) 
+          expression = "convergdb_source_file_name"
+        }
+      }
+    }
+  }
+}
