@@ -24,8 +24,6 @@ artifacts:
   files:
       - buildspec_deployment.yml
       - download/terraform
-      - *.deployment 
-      - *.schema
       - docs/**/*
       - bootstrap/**/*
       - terraform/**/*
