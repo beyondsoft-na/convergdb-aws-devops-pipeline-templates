@@ -6,10 +6,10 @@ phases:
       - git clone https://github.com/beyondsoft-na/convergdb.git
       - mv convergdb/convergdb.jar .
       - ls
-#   pre_build:
-#     commands:
-#       - gem install thor --version 0.20
-#       - bundle install
+  pre_build:
+    commands:
+      - java -jar convergdb.jar generate
+      - ls
 #   build:
 #     commands:
 #       - bundle exec gem build convergdb.gemspec
