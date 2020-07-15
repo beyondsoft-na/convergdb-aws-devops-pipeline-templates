@@ -1,0 +1,33 @@
+version: 0.2
+
+
+phases:
+  install:
+    commands:
+        - echo "Deployment Stage"
+        - ls
+#       - mkdir download && cd download
+#       - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+#       - unzip terraform_${TF_VERSION}_linux_amd64.zip
+#       - cd ..
+#   pre_build:
+#     commands:
+#       - git clone https://github.com/beyondsoft-na/convergdb.git
+#       - cp convergdb/convergdb.jar .
+#       - ls 
+#   build:
+#     commands:
+#       - java -jar convergdb.jar generate
+#       - ls
+# artifacts:
+#   files:
+#       - buildspec_deployment.yml
+      
+#     - buildspec_integration.yml
+#     - buildspec_tagging.yml
+#     - convergdb-*-java.gem
+#     - src.jar
+#     - bin/*
+#     - test/fixtures/bin/*
+#     - test/fixtures/integration_test_*/**/*
+

@@ -1,21 +1,35 @@
 version: 0.2
 
+env:
+  variables:
+    TF_VERSION: "0.12.28"
+
 phases:
   install:
     commands:
-      - git clone https://github.com/beyondsoft-na/convergdb.git
-      - mv convergdb/convergdb.jar .
-      - ls
+      - mkdir download && cd download
+      - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip terraform_${TF_VERSION}_linux_amd64.zip
+      - cd ..
   pre_build:
+    commands:
+      - git clone https://github.com/beyondsoft-na/convergdb.git
+      - cp convergdb/convergdb.jar .
+      - ls 
+  build:
     commands:
       - java -jar convergdb.jar generate
       - ls
-#   build:
-#     commands:
-#       - bundle exec gem build convergdb.gemspec
-#       - warble
-# artifacts:
-#   files:
+artifacts:
+  files:
+      - buildspec_deployment.yml
+      - download/terraform
+      - *.deployment 
+      - *.schema
+      - docs/**/*
+      - bootstrap/**/*
+      - terraform/**/*
+
 #     - buildspec_integration.yml
 #     - buildspec_tagging.yml
 #     - convergdb-*-java.gem
