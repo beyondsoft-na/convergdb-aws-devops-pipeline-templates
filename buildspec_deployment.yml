@@ -1,5 +1,8 @@
 version: 0.2
 
+env:
+  variables:
+    AWS_REGION: "us-west-2"
 
 phases:
   install:
@@ -8,22 +11,24 @@ phases:
         - ls
         - mv download/terraform /usr/local/bin/
         - terraform -version
-#       - mkdir download && cd download
-#       - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
-#       - unzip terraform_${TF_VERSION}_linux_amd64.zip
-#       - cd ..
-#   pre_build:
-#     commands:
-#       - git clone https://github.com/beyondsoft-na/convergdb.git
-#       - cp convergdb/convergdb.jar .
-#       - ls 
-#   build:
-#     commands:
-#       - java -jar convergdb.jar generate
-#       - ls
-# artifacts:
-#   files:
-#       - buildspec_deployment.yml
+  pre_build:
+    commands:
+      - cd bootstrap
+      - terraform init
+      - terraform plan -var="region=${AWS_REGION}" -out tf.plan
+  build:
+    commands:
+      - terraform apply tf.plan
+  post_build:
+    commands:
+      - terraform destroy -var="region=${AWS_REGION}" -auto-approve
+    # finally:
+    #   - command
+    #   - command
+artifacts:
+  files:
+      - bootstrap/bootstrap.tf
+      - bootstrap/terraform.tfstate
       
 #     - buildspec_integration.yml
 #     - buildspec_tagging.yml

@@ -1,4 +1,4 @@
-s3_source "prod" {
+s3_source "#ENV" {
   relations {
     relation {
       dsd = "ecommerce.inventory.books_source"
@@ -8,7 +8,7 @@ s3_source "prod" {
   }
 }
 
-athena "prod" {
+athena "#ENV" {
   etl_job_name = "demo2"
   etl_job_schedule = "cron(0 7 * * ? *)"
   relations {
