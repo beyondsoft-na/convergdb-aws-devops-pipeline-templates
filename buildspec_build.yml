@@ -16,7 +16,7 @@ phases:
     commands:
       - git clone https://github.com/beyondsoft-na/convergdb.git
       - cp convergdb/convergdb.jar .
-      - sed -i '.bak' "s/#ENV/${ENVIRONMENT}/g" *.deployment
+      - sed -i "s/#ENV/${ENVIRONMENT}/g" *.deployment
       - cat *.deployment
       - ls 
   build:
