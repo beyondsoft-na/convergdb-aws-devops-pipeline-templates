@@ -16,11 +16,17 @@ phases:
       - cd bootstrap
       - terraform init
       - terraform plan -var="region=${AWS_REGION}" -out tf.plan
+      - terraform apply tf.plan
   build:
     commands:
+      - cd ../terraform
+      - terraform init
+      - terraform plan -out tf.plan
       - terraform apply tf.plan
   post_build:
     commands:
+      - terraform destroy -auto-approve
+      - cd ../bootstrap
       - terraform destroy -var="region=${AWS_REGION}" -auto-approve
     # finally:
     #   - command
@@ -29,7 +35,7 @@ artifacts:
   files:
       - bootstrap/bootstrap.tf
       - bootstrap/terraform.tfstate
-      
+      - terraform/**/*
 #     - buildspec_integration.yml
 #     - buildspec_tagging.yml
 #     - convergdb-*-java.gem
