@@ -15,7 +15,7 @@ env:
     # dev-ecs-log-group: "convergdb-999fb9b8c5c3176e"
     # dev-ecs-execution-role: "arn:aws:iam::692977618922:role/convergdb-999fb9b8c5c3176e-execution-task-role"
   parameters:
-    deployment-id: ${CONVERGDB_ENV_NAME}-deployment-id
+    deployment_id: ${CONVERGDB_ENV_NAME}-deployment-id
 phases:
   install:
     commands:
@@ -24,7 +24,7 @@ phases:
         - mv download/terraform /usr/local/bin/
         - terraform -version
         - echo "output test"
-        - echo ${deployment-id}
+        - echo $deployment_id
   # pre_build:
   #   commands:
   #     - cd bootstrap
