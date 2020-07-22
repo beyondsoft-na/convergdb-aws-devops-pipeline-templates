@@ -1,4 +1,4 @@
-s3_source "#ENV" {
+s3_source "${env.CONVERGDB_ENV_NAME}" {
   relations {
     relation {
       dsd = "ecommerce.inventory.books_source"
@@ -8,7 +8,7 @@ s3_source "#ENV" {
   }
 }
 
-athena "#ENV" {
+athena "${env.CONVERGDB_ENV_NAME}"  {
   etl_job_name = "demo2"
   etl_job_schedule = "cron(0 7 * * ? *)"
   relations {

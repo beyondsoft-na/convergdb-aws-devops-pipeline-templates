@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     TF_VERSION: "0.12.28"
-    ENVIRONMENT: "dev"
+    CONVERGDB_ENV_NAME: "dev"
 
 phases:
   install:
@@ -16,9 +16,9 @@ phases:
     commands:
       - git clone https://github.com/beyondsoft-na/convergdb.git
       - cp convergdb/convergdb.jar .
-      - sed -i "s/#ENV/${ENVIRONMENT}/g" *.deployment
-      - cat *.deployment
-      - ls 
+      # - sed -i "s/#ENV/${ENVIRONMENT}/g" *.deployment
+      # - cat *.deployment
+      # - ls 
   build:
     commands:
       - java -jar convergdb.jar generate
@@ -28,5 +28,6 @@ artifacts:
       - buildspec_deployment.yml
       - download/terraform
       - docs/**/*
-      - bootstrap/**/*
+      # - bootstrap/**/*
       - terraform/**/*
+      - backend.tf
