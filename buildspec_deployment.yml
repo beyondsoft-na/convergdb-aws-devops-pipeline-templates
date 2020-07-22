@@ -24,7 +24,7 @@ phases:
         - mv download/terraform /usr/local/bin/
         - terraform -version
         - echo "output test"
-        - echo $deployment-id
+        - echo ${deployment-id}
   # pre_build:
   #   commands:
   #     - cd bootstrap
