@@ -27,16 +27,16 @@ phases:
         - echo "output test"
         - echo "${CONVERGDB_ENV_NAME}.tfvars"
         - cat ${CONVERGDB_ENV_NAME}.tfvars
+        - export AWS_REGION=`awk '/aws_region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
+        - echo $AWS_REGION
+        - export CONVERGDB_DEPLOYMENT_ID=`awk '/deployment_id/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'` 
+        - echo $CONVERGDB_DEPLOYMENT_ID
   pre_build:
     commands:
       - mv backend.tf terraform/
       - mv *.tfvars terraform/
       - mv variables.tf terraform/
       - ls terraform/
-      - export AWS_REGION=`awk '/aws_region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
-      - echo $AWS_REGION
-      - export CONVERGDB_DEPLOYMENT_ID=`awk '/deployment_id/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'` 
-      - echo $CONVERGDB_DEPLOYMENT_ID
   # build:
   #   commands:
       # - cd terraform
