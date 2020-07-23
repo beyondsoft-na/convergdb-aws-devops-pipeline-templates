@@ -27,8 +27,9 @@ artifacts:
   files:
       - buildspec_deployment.yml
       - download/terraform
-      - docs/**/*
+      # - docs/**/*
       # - bootstrap/**/*
       - terraform/**/*
       - backend.tf
+      - variables.tf
       - '*.tfvars'
