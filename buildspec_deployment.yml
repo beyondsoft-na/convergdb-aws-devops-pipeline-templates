@@ -31,7 +31,7 @@ phases:
     commands:
       - mv backend.tf terraform/
       - ls terraform/
-      - export AWS_REGION=`awk '/aws_region/{print $NF}' ${convergdb_env}.tfvars | sed 's/"//g'`
+      - export AWS_REGION=`awk '/aws_region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
       - echo $AWS_REGION
   # build:
   #   commands:
