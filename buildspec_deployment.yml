@@ -36,15 +36,13 @@ phases:
       - mv backend.tf terraform/
       - mv *.tfvars terraform/
       - mv variables.tf terraform/
+      - ls terraform/
+  build:
+    commands:
       - cd terraform
-      - echo $AWS_REGION
-      - echo $CONVERGDB_DEPLOYMENT_ID
-  # build:
-  #   commands:
-      # - cd terraform
-      # - terraform init -backend-config="bucket=convergdb-admin-${CONVERGDB_ENV_NAME}" -backend-config="key=terraform/convergdb.tfstate" -backend-config="dynamodb_table=convergdb-lock-${CONVERGDB_ENV_NAME}" -backend-config="region=${AWS_REGION}"
-      # - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars"-out tf.plan
-      # - terraform apply tf.plan
+      - terraform init -backend-config="bucket=convergdb-admin-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=terraform/convergdb.tfstate" -backend-config="dynamodb_table=convergdb-lock-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
+      - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars"-out tf.plan
+      - terraform apply tf.plan
   # post_build:
   #   commands:
   #     - terraform destroy -auto-approve
