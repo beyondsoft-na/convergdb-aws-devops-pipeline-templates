@@ -31,3 +31,4 @@ artifacts:
       # - bootstrap/**/*
       - terraform/**/*
       - backend.tf
+      - /*.tfvars
