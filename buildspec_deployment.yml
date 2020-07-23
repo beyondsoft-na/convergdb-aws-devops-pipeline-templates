@@ -31,10 +31,12 @@ phases:
     commands:
       - mv backend.tf terraform/
       - ls terraform/
+      - export AWS_REGION=`awk '/aws_region/{print $NF}' ${convergdb_env}.tfvars | sed 's/"//g'`
+      - echo $AWS_REGION
   # build:
   #   commands:
   #     - cd ../terraform
-  #     - terraform init 
+  #     - terraform init -backend-config="bucket=convergdb-admin-${CONVERGDB_ENV_NAME}" -backend-config="key=terraform/convergdb.tfstate" -backend-config="dynamodb_table=convergdb-lock-${CONVERGDB_ENV_NAME}" -backend-config="region=${aws_region}"
   #     - terraform plan -out tf.plan
   #     - terraform apply tf.plan
   # post_build:
