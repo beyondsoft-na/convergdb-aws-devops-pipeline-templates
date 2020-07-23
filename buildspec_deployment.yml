@@ -36,7 +36,9 @@ phases:
       - mv backend.tf terraform/
       - mv *.tfvars terraform/
       - mv variables.tf terraform/
-      - ls terraform/
+      - cd terraform
+      - echo $AWS_REGION
+      - echo $CONVERGDB_DEPLOYMENT_ID
   # build:
   #   commands:
       # - cd terraform
