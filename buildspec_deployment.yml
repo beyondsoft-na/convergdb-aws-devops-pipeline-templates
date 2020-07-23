@@ -27,13 +27,10 @@ phases:
         - echo "output test"
         - echo "${CONVERGDB_ENV_NAME}.tfvars"
         - cat ${CONVERGDB_ENV_NAME}.tfvars
-  # pre_build:
-  #   commands:
-  #     - cd bootstrap
-  #     - terraform init
-  #     - terraform plan -var="region=${AWS_REGION}" -out tf.plan
-  #     # - terrafomr plan -var-file="${ENVRIONMENT}.tfvar"
-  #     - terraform apply tf.plan
+  pre_build:
+    commands:
+      - mv backend.tf terraform/
+      - ls terraform/
   # build:
   #   commands:
   #     - cd ../terraform
