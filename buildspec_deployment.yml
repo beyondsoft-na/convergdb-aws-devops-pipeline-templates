@@ -27,7 +27,7 @@ phases:
         - echo "output test"
         - echo "${CONVERGDB_ENV_NAME}.tfvars"
         - cat ${CONVERGDB_ENV_NAME}.tfvars
-        - export AWS_REGION=`awk '/aws_region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
+        - export AWS_REGION=`awk '/region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
         - echo $AWS_REGION
         - export CONVERGDB_DEPLOYMENT_ID=`awk '/deployment_id/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'` 
         - echo $CONVERGDB_DEPLOYMENT_ID

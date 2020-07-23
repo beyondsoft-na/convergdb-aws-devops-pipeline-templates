@@ -1,4 +1,4 @@
-aws_region         = "us-east-2"
+region             = "us-east-2"
 deployment_id      = "999fb9b8c5c3176e"
 admin_bucket       = "convergdb-admin-999fb9b8c5c3176e"
 data_bucket        = "convergdb-data-999fb9b8c5c3176e"
