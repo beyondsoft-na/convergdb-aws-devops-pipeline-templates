@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables:
-    CONVERGDB_ENV_NAME: "prod"
+    CONVERGDB_ENV_NAME: "qa"
     BACKEND_BUCKET: "convergdb-admin"
     BACKEND_PROFIX: "terraform/convergdb.tfstate"
     BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock"
