@@ -36,8 +36,9 @@ phases:
     commands:
       - cd terraform
       - cat ${CONVERGDB_ENV_NAME}.tfvars
-      - terraform init -backend-config="bucket=${BACKEND_BUCKET}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=${BACKEND_PROFIX}" -backend-config="dynamodb_table=${BACKEND_DYNAMODB_LOCK_TABLE}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
-      - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
+      - echo "bucket=${BACKEND_BUCKET}-${CONVERGDB_DEPLOYMENT_ID}"
+      # - terraform init -backend-config="bucket=${BACKEND_BUCKET}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=${BACKEND_PROFIX}" -backend-config="dynamodb_table=${BACKEND_DYNAMODB_LOCK_TABLE}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
+      # - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
       # - terraform apply tf.plan
   post_build:
     commands:
