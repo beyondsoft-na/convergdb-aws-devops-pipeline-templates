@@ -35,25 +35,15 @@ phases:
       - cd terraform
       - terraform init -backend-config="bucket=convergdb-admin-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=terraform/convergdb.tfstate" -backend-config="dynamodb_table=convergdb-lock-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
       - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
-      # - terraform apply tf.plan
-  # post_build:
-  #   commands:
-  #     - terraform destroy -auto-approve
-  #     - cd ../bootstrap
-  #     - terraform destroy -var="region=${AWS_REGION}" -auto-approve
+      - terraform apply tf.plan
+  post_build:
+    commands:
+      - terraform destroy -auto-approve
+
 
 artifacts:
   files:
       # - bootstrap/bootstrap.tf
       # - bootstrap/terraform.tfstate
       - terraform/**/*
-
-
-#     - buildspec_integration.yml
-#     - buildspec_tagging.yml
-#     - convergdb-*-java.gem
-#     - src.jar
-#     - bin/*
-#     - test/fixtures/bin/*
-#     - test/fixtures/integration_test_*/**/*
 
