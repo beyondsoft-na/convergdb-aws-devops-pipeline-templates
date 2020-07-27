@@ -4,11 +4,16 @@ env:
   variables:
     # AWS_REGION: "us-west-2"
     CONVERGDB_ENV_NAME: "dev"
+  secrets-manager:
+    key: convergdb-${CONVERGDB_ENV_NAME}: aws_access_key_id
+    value: convergdb-${CONVERGDB_ENV_NAME}: aws_secret_access_key
 
 phases:
   install:
     commands:
-        - echo "Deployment Stage"
+        - export AWS_ACCESS_KEY_ID=$key
+        - export AWS_SECRET_ACCESS_KEY=$value
+        - echo $AWS_SECRET_ACCESS_KEY
         - ls
         - mv download/terraform /usr/local/bin/
         - terraform -version
