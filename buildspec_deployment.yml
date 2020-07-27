@@ -5,8 +5,8 @@ env:
     # AWS_REGION: "us-west-2"
     CONVERGDB_ENV_NAME: "dev"
   secrets-manager:
-    key: convergdb-${CONVERGDB_ENV_NAME}: aws_access_key_id
-    value: convergdb-${CONVERGDB_ENV_NAME}: aws_secret_access_key
+    key: convergdb-stage-keys:aws_access_key_id_${CONVERGDB_ENV_NAME}
+    value: convergdb-stage-keys:aws_secret_access_key_${CONVERGDB_ENV_NAME}
 
 phases:
   install:
