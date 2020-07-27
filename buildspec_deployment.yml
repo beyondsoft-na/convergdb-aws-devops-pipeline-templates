@@ -4,19 +4,7 @@ env:
   variables:
     # AWS_REGION: "us-west-2"
     CONVERGDB_ENV_NAME: "dev"
-    # dev-deployment-id: "999fb9b8c5c3176e"
-    # dev-aws-region: "us-east-2"
-    # dev-admin-bucket: "convergdb-admin-999fb9b8c5c3176e"
-    # dev-data-bucket: "convergdb-data-999fb9b8c5c3176e"
-    # dev-etl-lock-table: "convergdb-etl-lock-999fb9b8c5c3176e"
-    # dev-fargate-cluster: "arn:aws:ecs:us-east-2:692977618922:cluster/convergdb-999fb9b8c5c3176e"
-    # dev-fargate-vpc: "vpc-08a726dfcc7fb274c"
-    # dev-fargate-subnet: "subnet-00913bf15df7b1e2c"
-    # dev-ecs-log-group: "convergdb-999fb9b8c5c3176e"
-    # dev-ecs-execution-role: "arn:aws:iam::692977618922:role/convergdb-999fb9b8c5c3176e-execution-task-role"
 
-  # parameter-store:
-  #   deployment-id: ${CONVERGDB_ENV_NAME}-deployment-id
 phases:
   install:
     commands:
@@ -42,7 +30,7 @@ phases:
       - cd terraform
       - terraform init -backend-config="bucket=convergdb-admin-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=terraform/convergdb.tfstate" -backend-config="dynamodb_table=convergdb-lock-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
       - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
-      - terraform apply tf.plan
+      # - terraform apply tf.plan
   # post_build:
   #   commands:
   #     - terraform destroy -auto-approve
