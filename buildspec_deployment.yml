@@ -43,7 +43,6 @@ phases:
     commands:
       - terraform destroy -var-file="${CONVERGDB_ENV_NAME}.tfvars" -auto-approve
 
-
 artifacts:
   files:
       - terraform/**/*
