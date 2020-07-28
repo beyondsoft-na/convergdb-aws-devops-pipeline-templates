@@ -3,8 +3,8 @@ version: 0.2
 env:
   variables:
     CONVERGDB_ENV_NAME: "dev"
-    BACKEND_BUCKET: "convergdb-admin"
-    BACKEND_PROFIX: "terraform/convergdb.tfstate"
+    BACKEND_BUCKET: "convergdb-admin-${CONVERGDB_DEPLOYMENT_ID}"
+    BACKEND_PREFIX: "terraform/convergdb.tfstate"
     BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock"
 
   secrets-manager:
@@ -36,13 +36,13 @@ phases:
     commands:
       - cd terraform
       - cat ${CONVERGDB_ENV_NAME}.tfvars
-      - terraform init -backend-config="bucket=${BACKEND_BUCKET}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=${BACKEND_PROFIX}" -backend-config="dynamodb_table=${BACKEND_DYNAMODB_LOCK_TABLE}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
-      - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
-      - terraform apply tf.plan
-  post_build:
-    commands:
-      - terraform destroy -var-file="${CONVERGDB_ENV_NAME}.tfvars" -auto-approve
-
+      - echo $BACKEND_BUCKET
+  #     - terraform init -backend-config="bucket=${BACKEND_BUCKET}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="key=${BACKEND_PREFIX}" -backend-config="dynamodb_table=${BACKEND_DYNAMODB_LOCK_TABLE}-${CONVERGDB_DEPLOYMENT_ID}" -backend-config="region=${AWS_REGION}"
+  #     - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
+  #     - terraform apply tf.plan
+  # post_build:
+  #   commands:
+  #     - terraform destroy -var-file="${CONVERGDB_ENV_NAME}.tfvars" -auto-approve
 
 artifacts:
   files:
