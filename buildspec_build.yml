@@ -3,7 +3,7 @@ version: 0.2
 env:
   variables:
     TF_VERSION: "0.12.28"
-    CONVERGDB_ENV_NAME: "qa"
+    CONVERGDB_ENV_NAME: "dev"
 
 phases:
   install:
