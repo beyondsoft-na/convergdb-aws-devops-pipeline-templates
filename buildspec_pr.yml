@@ -8,6 +8,10 @@ env:
     DEV_BACKEND_PREFIX: "terraform/convergdb.tfstate"
     DEV_BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock-999fb9b8c5c3176e"
 
+  secrets-manager:
+    key: convergdb-stage-keys:aws_access_key_id_${CONVERGDB_ENV_NAME}
+    value: convergdb-stage-keys:aws_secret_access_key_${CONVERGDB_ENV_NAME}
+
 phases:
   install:
     commands:
