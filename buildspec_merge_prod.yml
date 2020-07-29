@@ -1,0 +1,56 @@
+version: 0.2
+
+env:
+  variables:
+    TF_VERSION: "0.12.28"
+    CONVERGDB_ENV_NAME: "prod"
+    DEV_BACKEND_BUCKET: "convergdb-admin-999fb9b8c5c3176e"
+    DEV_BACKEND_PREFIX: "terraform/convergdb.tfstate"
+    DEV_BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock-999fb9b8c5c3176e"
+    QA_BACKEND_BUCKET: "convergdb-admin-85562b798b05b021"
+    QA_BACKEND_PREFIX: "terraform/convergdb.tfstate"
+    QA_BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock-85562b798b05b021"
+    PROD_BACKEND_BUCKET: "convergdb-admin-00615f06f762ec28"
+    PROD_BACKEND_PREFIX: "terraform/convergdb.tfstate"
+    PROD_BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock-00615f06f762ec28"
+
+  secrets-manager:
+    key: convergdb-stage-keys:aws_access_key_id_${CONVERGDB_ENV_NAME}
+    value: convergdb-stage-keys:aws_secret_access_key_${CONVERGDB_ENV_NAME}
+
+phases:
+  install:
+    commands:
+      - mkdir download && cd download
+      - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip terraform_${TF_VERSION}_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform -version
+      - cd ..
+      - export AWS_REGION=`awk '/region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
+      - echo $AWS_REGION
+  pre_build:
+    commands:
+      - git clone https://github.com/beyondsoft-na/convergdb.git
+      - cp convergdb/convergdb.jar .
+      - java -jar convergdb.jar generate
+      - ls 
+      - mv backend.tf terraform/
+      - mv *.tfvars terraform/
+      - mv variables.tf terraform/
+      - ls terraform/
+  build:
+    commands:
+      - cd terraform
+      - cat ${CONVERGDB_ENV_NAME}.tfvars
+      - terraform init -backend-config="bucket=${QA_BACKEND_BUCKET}" -backend-config="key=${QA_BACKEND_PREFIX}" -backend-config="dynamodb_table=${QA_BACKEND_DYNAMODB_LOCK_TABLE}" -backend-config="region=${AWS_REGION}"
+      - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
+      - terraform apply tf.plan
+  post_build:
+    commands:
+      - terraform destroy -var-file="${CONVERGDB_ENV_NAME}.tfvars" -auto-approve
+
+artifacts:
+  files:
+      - '**/*'
+  
