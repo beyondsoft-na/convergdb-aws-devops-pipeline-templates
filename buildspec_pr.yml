@@ -1,0 +1,46 @@
+version: 0.2
+
+env:
+  variables:
+    TF_VERSION: "0.12.28"
+    CONVERGDB_ENV_NAME: "dev"
+    DEV_BACKEND_BUCKET: "convergdb-admin-999fb9b8c5c3176e"
+    DEV_BACKEND_PREFIX: "terraform/convergdb.tfstate"
+    DEV_BACKEND_DYNAMODB_LOCK_TABLE: "convergdb-lock-999fb9b8c5c3176e"
+
+phases:
+  install:
+    commands:
+      - mkdir download && cd download
+      - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
+      - unzip terraform_${TF_VERSION}_linux_amd64.zip
+      - mv terraform /usr/local/bin/
+      - terraform -version
+      - cd ..
+      - export AWS_REGION=`awk '/region/{print $NF}' ${CONVERGDB_ENV_NAME}.tfvars | sed 's/"//g'`
+      - echo $AWS_REGION
+  pre_build:
+    commands:
+      - git clone https://github.com/beyondsoft-na/convergdb.git
+      - cp convergdb/convergdb.jar .
+      - java -jar convergdb.jar generate
+      - ls 
+      - mv backend.tf terraform/
+      - mv *.tfvars terraform/
+      - mv variables.tf terraform/
+      - ls terraform/
+  build:
+    commands:
+      - cd terraform
+      - cat ${CONVERGDB_ENV_NAME}.tfvars
+      - terraform init -backend-config="bucket=${DEV_BACKEND_BUCKET}" -backend-config="key=${DEV_BACKEND_PREFIX}" -backend-config="dynamodb_table=${DEV_BACKEND_DYNAMODB_LOCK_TABLE}" -backend-config="region=${AWS_REGION}"
+      - 
+
+# artifacts:
+#   files:
+#       - buildspec_deployment.yml
+#       - download/terraform
+#       - terraform/**/*
+#       - backend.tf
+#       - variables.tf
+#       - '*.tfvars'
