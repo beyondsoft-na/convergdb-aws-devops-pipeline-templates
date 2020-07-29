@@ -38,13 +38,13 @@ phases:
       - cd terraform
       - cat ${CONVERGDB_ENV_NAME}.tfvars
       - terraform init -backend-config="bucket=${DEV_BACKEND_BUCKET}" -backend-config="key=${DEV_BACKEND_PREFIX}" -backend-config="dynamodb_table=${DEV_BACKEND_DYNAMODB_LOCK_TABLE}" -backend-config="region=${AWS_REGION}"
-      - 
+      - terraform plan -var-file="${CONVERGDB_ENV_NAME}.tfvars" -out tf.plan
+      - terraform apply tf.plan
+  post_build:
+    commands:
+      - terraform destroy -var-file="${CONVERGDB_ENV_NAME}.tfvars" -auto-approve
 
-# artifacts:
-#   files:
-#       - buildspec_deployment.yml
-#       - download/terraform
-#       - terraform/**/*
-#       - backend.tf
-#       - variables.tf
-#       - '*.tfvars'
+artifacts:
+  files:
+      - '**/*'
+  
