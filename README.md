@@ -184,6 +184,9 @@ Find the role created with Codebuild project and attach permission to it, we att
 * select `manual approval` in action provider
 * select SNS arn (create one if needed)
 
+## 5. Set webhooks for Github
+Create webhooks for codebuild and codepipeline in github setting. Set trigger event to `pr` and `push`
+
 ## Summary
 * A PR will trigger `codebuild_pr` in codebuild
 * A master branch merge will trigger codepipeline for qa and prod stages
